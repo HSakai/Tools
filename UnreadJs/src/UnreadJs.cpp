@@ -2,7 +2,7 @@
 // Name        : UnreadJs.cpp
 // Author      : H.Sakai
 // Version     : V1.00
-// Copyright   : Copyright 2012 SORAYUME Co., Ltd. Allrights Reserved.
+// Copyright   : Copyright 2012 H.Sakai
 // Description : JavaScript難読化ツール in C++, Ansi-style
 //============================================================================
 #include <iostream>
