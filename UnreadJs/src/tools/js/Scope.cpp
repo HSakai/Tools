@@ -5,6 +5,7 @@
  *      Author: H.Sakai
  */
 #include "Scope.h"
+#include "../../utils/Util.h"
 
 Scope::Scope():previous(0) {
 	std::map<std::string, std::string> map;
@@ -42,7 +43,7 @@ std::string Scope::getMapping(std::string src)
 		dest = (*itr).second;
 	}
 	
-	if (dest != "")
+	if (dest != EmptyStr)
 	{
 		return dest;
 	}
@@ -51,10 +52,8 @@ std::string Scope::getMapping(std::string src)
 	{
 		return previous->getMapping(src);
 	}
-	else
-	{
-		return "";
-	}
+
+	return EmptyStr;
 }
 
 Scope* Scope::getNext(Scope* thisInst)

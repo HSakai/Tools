@@ -12,11 +12,11 @@
 #include <string>
 #include <vector>
 #include <boost/regex.hpp>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include "stdio.h"
 #include "Token.h"
 
-typedef boost::shared_ptr<Token> TokenPtr;
+typedef std::shared_ptr<Token> TokenPtr;
 
 class Tokenizer {
 private:

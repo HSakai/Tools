@@ -307,7 +307,6 @@ void JsCompressor::renameLocalIdents(std::vector<TokenPtr> list, IdentMap map)
 
 JsCompressor::JsCompressor()
 {
-	state = 0;
 }
 
 JsCompressor::~JsCompressor()
@@ -316,6 +315,8 @@ JsCompressor::~JsCompressor()
 
 void JsCompressor::execute(std::string inFile, std::string outFile, std::string prefix)
 {
+	state = 0;
+
 	// 拡張子チェック
 	std::string extension;
 	if (inFile.length() < 4)
@@ -360,5 +361,5 @@ void JsCompressor::execute(std::string inFile, std::string outFile, std::string 
 	renameLocalIdents(list, identMap);
 	
 	// 難読化結果を出力
-	Token::writeTokensToFile(list, outFile);
+	Token::writeTokensToFile(&list, outFile);
 }

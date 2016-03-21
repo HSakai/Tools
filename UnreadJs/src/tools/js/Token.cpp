@@ -180,11 +180,11 @@ std::string Token::toString()
 	return "<" + getType() + ">" + getToken()  + "</" + getType() + ">";
 }
 
-void Token::writeTokensToFile(std::vector<TokenPtr> textList, std::string filePath)
+void Token::writeTokensToFile(std::vector<TokenPtr> *textList, std::string filePath)
 {
 	std::string outText;
-	std::vector<TokenPtr>::iterator itr = textList.begin();
-	while (itr != textList.end())
+	std::vector<TokenPtr>::iterator itr = textList->begin();
+	while (itr != textList->end())
 	{
 		TokenPtr token = *itr;
 		outText += token->getToken();

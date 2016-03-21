@@ -12,7 +12,7 @@
 #include "stdio.h"
 #include <string>
 #include <vector>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 class Token {
 private:
@@ -45,7 +45,7 @@ private:
 	static std::string _reRegex;
 	static std::vector<std::string> _keywords;
 public:
-	typedef boost::shared_ptr<Token> TokenPtr;
+	typedef std::shared_ptr<Token> TokenPtr;
 	Token(std::string s);
 	virtual ~Token();
 	std::string getToken();
@@ -53,7 +53,7 @@ public:
 	std::string getType();
 	std::string getTokenType(std::string s);
 	std::string toString();
-	static void writeTokensToFile(std::vector<TokenPtr> textList, std::string filePath);
+	static void writeTokensToFile(std::vector<TokenPtr> *textList, std::string filePath);
 	static std::string IDENT();
 	static std::string WHITESPACE();
 	static std::string COMMENT();

@@ -4,6 +4,7 @@
  *  Created on: 2012/11/07
  *      Author: H.Sakai
  */
+
 #define BOOST_FILESYSTEM_VERSION 3
 
 #include "Util.h"
@@ -94,10 +95,8 @@ bool createDir(std::string path)
 	return false;
 }
 
-std::vector<std::string> getFileList(std::string dirPath)
+void getFileList(std::string dirPath, std::vector<std::string> *buffer)
 {
-	std::vector<std::string> list;
-	
 	boost::filesystem::path filepath;
 	boost::filesystem::path dir(dirPath);
 	boost::filesystem::directory_iterator end;
@@ -106,9 +105,7 @@ std::vector<std::string> getFileList(std::string dirPath)
 		filepath = *p;
 		if (!boost::filesystem::is_directory(filepath))
 		{
-			list.push_back(filepath.leaf().string());
+			buffer->push_back(filepath.leaf().string());
 		}
 	}
-	
-	return list;
 }

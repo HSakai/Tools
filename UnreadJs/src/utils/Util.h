@@ -11,6 +11,12 @@
 #include <string>
 #include <list>
 #include <vector>
+#include <string>
+
+/*
+ * 空文字定数
+ */
+const static std::string EmptyStr = "";
 
 /*
  * 文字列をint型数値に変換する。
@@ -56,8 +62,9 @@ bool createDir(std::string path);
  * 指定ディレクトリのに含まれるファイル名リストを取得する。
  * 
  * @param dirPath ディレクトリパス
+ * @param buffer 格納バッファ
  * @return ファイル名リスト
  */
-std::vector<std::string> getFileList(std::string dirPath);
+void getFileList(std::string dirPath, std::vector<std::string> *buffer);
 
 #endif /* UTIL_H_ */

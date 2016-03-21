@@ -9,10 +9,9 @@
 #ifndef SCOPE_H_
 #define SCOPE_H_
 
-#include "stdio.h"
 #include <map>
 #include <string>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 class Scope {
 private:
