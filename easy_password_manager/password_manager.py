@@ -2,13 +2,14 @@
 # -*- encoding: utf-8 -*-
 
 import sys
+import os
 import getpass
 import argparse
 import sqlite3
 import subprocess
 
 parser = argparse.ArgumentParser(description='パスワード管理マネージャー')
-parser.add_argument('-t', '--type', required=True, nargs=1, help='1: 登録, 2: 取得')
+parser.add_argument('-t', '--type', required=True, nargs=1, help='1: 登録, 2: 取得, 3: 一覧選択')
 parser.add_argument('-k', '--key', nargs=1, help='typeで操作したいキー名')
 
 args = parser.parse_args()
@@ -26,7 +27,7 @@ def input_line():
 
 
 def check_table(conn):
-    cursor = conn.execute("SELECT * FROM sqlite_master WHERE type='table' and name='%s'" % "pass_manage")
+    cursor = conn.execute("SELECT * FROM sqlite_master WHERE type='table' and name='pass_manage'")
     if not cursor.fetchone():
         conn.execute("CREATE TABLE pass_manage (key text primary key, password text, usage text)")
 
@@ -96,7 +97,7 @@ def set_clipboard(password):
 if __name__ == '__main__':
     exec_type = int(args.type[0])
 
-    conn = sqlite3.connect('password_manage.db')
+    conn = sqlite3.connect(os.path.dirname(os.path.abspath(__file__)) + '/psm.dat')
     conn.text_factory = str
     check_table(conn)
 
