@@ -75,13 +75,17 @@ def select_list(conn):
     for record in record_list:
         no += 1
         print("%s: %s [usage: %s]" % (no, record.key, record.usage))
+    print("%s: %s" % (999, "終了"))
     print('Noを選択して下さい')
     input_no_txt = input_line()
     record_count = len(record_list)
-    while not input_no_txt.isdigit() or int(input_no_txt) > record_count:
+    while not input_no_txt.isdigit() or 999 > int(input_no_txt) > record_count:
         print('入力された値が不正です。再度入力して下さい。')
         input_no_txt = input_line()
-    record = record_list[int(input_no_txt) - 1]
+    input_no = int(input_no_txt)
+    if input_no == 999:
+        exit()
+    record = record_list[input_no- 1]
     return record.password
 
 
