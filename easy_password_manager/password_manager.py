@@ -9,7 +9,7 @@ import sqlite3
 import subprocess
 
 parser = argparse.ArgumentParser(description='パスワード管理マネージャー')
-parser.add_argument('-t', '--type', required=True, nargs=1, help='1: 登録, 2: 取得, 3: 一覧選択')
+parser.add_argument('-t', '--type', required=True, nargs=1, help='1: 登録, 2: 取得, 3: 一覧選択, 4: 削除(一覧から選択)')
 parser.add_argument('-k', '--key', nargs=1, help='typeで操作したいキー名')
 
 args = parser.parse_args()
@@ -67,10 +67,23 @@ def get_password(key, conn):
     return result
 
 
+def select_user_data(conn):
+    cursor = conn.cursor()
+    cursor.execute("SELECT key, password, usage FROM pass_manage")
+    records = [Record(r) for r in cursor.fetchall()]
+    cursor.close()
+    for record in record_list:
+        no += 1
+        print("%s: %s [usage: %s]" % (no, record.key, record.usage))
+    print("%s: %s" % (999, "終了"))
+    return records
+
+
 def select_list(conn):
     cursor = conn.cursor()
     cursor.execute("SELECT key, password, usage FROM pass_manage")
     record_list = [Record(r) for r in cursor.fetchall()]
+    cursor.close()
     no = 0
     for record in record_list:
         no += 1
@@ -85,9 +98,16 @@ def select_list(conn):
     input_no = int(input_no_txt)
     if input_no == 999:
         exit()
-    record = record_list[input_no- 1]
-    return record.password
+    return record_list[input_no- 1]
 
+
+def delete_target_no(conn):
+    record = select_list(conn)
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM pass_manage WHERE key = '%s'" % record.key)
+    conn.commit()
+    cursor.close()
+    print("key: %s のデータを削除しました。" % record.key)
 
 def set_clipboard(password):
     if password != '':
@@ -105,8 +125,8 @@ if __name__ == '__main__':
     conn.text_factory = str
     check_table(conn)
 
-    if exec_type != 3 and not args.key:
-        raise Exception('対話型モード以外は-k/--keyの入力は必須です')
+    if exec_type < 3 and not args.key:
+        raise Exception('対話型/削除モード以外は-k/--keyの入力は必須です')
 
     if exec_type == 1:
         regist_password(args.key[0], conn)
@@ -114,8 +134,10 @@ if __name__ == '__main__':
     elif exec_type == 2:
         set_clipboard(get_password(args.key[0], conn))
     elif exec_type == 3:
-        set_clipboard(select_list(conn))
+        set_clipboard(select_list(conn).password)
+    elif exec_type == 4:
+        delete_target_no(conn)
     else:
-        print('実行タイプが不正です。1: 登録/2: 取得/3: 対話型')
+        print('実行タイプが不正です。1: 登録/2: 取得/3: 対話型/4: 削除')
 
     conn.close()
